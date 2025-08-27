@@ -1,103 +1,100 @@
-import Image from "next/image";
+"use client";
+import MetronomeSlider from "@/app/slider";
+import { useCallback, useRef, useState } from "react";
+import BeatsSelector from "./BeatsSelector";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [tempo, setTempo] = useState(160);
+  const [beats, setBeats] = useState(4);
+  const [currentBeat, setCurrentBeat] = useState(1);
+  const [accent, setAccent] = useState(true);
+  const [active, setActive] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  const MIN_TEMPO = 20;
+  const MAX_TEMPO = 300;
+
+  const increaseTempo = () =>
+    setTempo((prev) => Math.min(prev + 1, MAX_TEMPO));
+  const decreaseTempo = () =>
+    setTempo((prev) => Math.max(prev - 1, MIN_TEMPO));
+
+  const intervalRef = useRef<number | null>(null);
+
+  const startCount = useCallback((fn: () => void) => {
+    fn();
+    if (intervalRef.current !== null) return;
+    intervalRef.current = window.setInterval(fn, 120);
+  }, []);
+
+  const stopCount = useCallback(() => {
+    if (intervalRef.current !== null) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  }, []);
+
+
+  return (
+    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 overflow-hidden">
+      <main className="flex flex-col gap-10 row-start-2 items-center justify-center">
+        <div className="font-sans min-h-screen p-4 sm:p-8 flex flex-col items-center bg-black">
+          {/* Top controls */}
+          <div className="flex flex-col sm:flex-row sm:gap-8 gap-4 items-center mb-8">
+            <div className="flex flex-col items-center gap-2">
+              <p className="text-sm font-medium text-white">Beats</p>
+              <BeatsSelector beats={beats} setBeats={setBeats} />
+            </div>
+
+            <div className="flex flex-col items-center gap-2">
+              <p className="text-sm font-medium text-white">Accent</p>
+              <button
+                onClick={() => setAccent(!accent)}
+                className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-colors
+              ${accent ? "bg-blue-500 text-white hover:bg-blue-600" : "bg-black text-white hover:bg-gray-800"}`}
+              >
+                {accent ? "ON" : "OFF"}
+              </button>
+            </div>
+          </div>
+
+          {/* Beat squares */}
+          <div className="flex flex-wrap justify-center gap-2 mb-6 mt-2">
+            {Array.from({ length: beats }, (_, i) => (
+              <div
+                key={i}
+                className={`w-6 h-6 rotate-45 mx-2 my-1 outline-2 ${!active
+                  ? "bg-gray-400"
+                  : i === currentBeat - 1
+                    ? "bg-red-700"
+                    : "bg-blue-500"
+                  }`}
+              />
+            ))}
+          </div>
+
+          {/* Start / Pause button */}
+          <button
+            onClick={() => setActive(!active)}
+            className={`px-6 py-2 mt-10 mb-6 rounded-full font-semibold transition-colors
+          ${active ? "bg-red-600 text-white hover:bg-red-700" : "bg-blue-500 text-white hover:bg-blue-600"}`}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+            {active ? "PAUSE" : "START"}
+          </button>
+
+          {/* Slider + BPM */}
+          <div className="flex flex-col items-center gap-4 w-full max-w-md px-4">
+            <MetronomeSlider
+              value={tempo}
+              minValue={MIN_TEMPO}
+              maxValue={MAX_TEMPO}
+              lowerValue={decreaseTempo}
+              increaseValue={increaseTempo}
+              setValue={setTempo}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <p className="font-bold text-3xl text-center text-white">{tempo} BPM</p>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </main >
+    </div >
   );
 }
