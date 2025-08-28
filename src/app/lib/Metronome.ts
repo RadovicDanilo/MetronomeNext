@@ -1,12 +1,13 @@
 export default class Metronome {
     private audioContext: AudioContext;
+
     private tempo: number;
     private beatsPerMeasure: number;
-    private currentBeat: number = 0;
     private accentEnabled: boolean;
     private volume: number;
 
     private isPlaying: boolean = false;
+    private currentBeat: number = -1;
     private nextNoteTime: number = 0;
     private readonly lookAheadSec: number = 0.1; // 100ms
     private readonly scheduleIntervalMs: number = 25;
@@ -63,6 +64,7 @@ export default class Metronome {
         while (this.nextNoteTime < this.audioContext.currentTime + this.lookAheadSec) {
             this.currentBeat = (this.currentBeat + 1) % this.beatsPerMeasure;
             this.onBeat?.(this.currentBeat);
+
             this.scheduleBeat(this.nextNoteTime);
             this.nextNoteTime += 60 / this.tempo;
         }

@@ -1,15 +1,20 @@
 "use client";
 import { useState } from "react";
 import useMetronome from "./hooks/useMetronome";
-import MetronomeSlider from "@/app/components/Slider";
+import TempoSlider from "@/app/components/TempoSlider";
 import BeatsSelector from "./components/BeatsSelector";
 import useLocalStorageState from "use-local-storage-state";
+import VolumeSlider from "./components/VolumeSlider";
+import SoundSelector from "./components/SoundSelector";
 
 export default function Home() {
   const [tempo, setTempo] = useLocalStorageState("tempo", { defaultValue: 160 });
   const [beats, setBeats] = useLocalStorageState("beats", { defaultValue: 4 });
-  const [currentBeat, setCurrentBeat] = useState(0);
   const [accent, setAccent] = useLocalStorageState("accent", { defaultValue: true });
+  const [volume, setVolume] = useLocalStorageState("volume", { defaultValue: 50 });
+  const [sound, setSound] = useLocalStorageState("sound", { defaultValue: "default" });
+
+  const [currentBeat, setCurrentBeat] = useState(0);
   const [active, setActive] = useState(false);
 
   const MIN_TEMPO = 20;
@@ -22,8 +27,8 @@ export default function Home() {
     tempo,
     beats,
     accent,
-    volume: 70,
-    sound: "default",
+    volume,
+    sound,
     active,
     onBeat: (beat: number) => setCurrentBeat(beat),
   });
@@ -50,7 +55,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Beat indicators */}
+          {/*   Beat indicators */}
           <div className="flex flex-wrap justify-center gap-2 mb-6 mt-2">
             {Array.from({ length: beats }, (_, i) => (
               <div
@@ -75,8 +80,8 @@ export default function Home() {
           </button>
 
           {/* Tempo Slider */}
-          <div className="flex flex-col items-center gap-4 w-full max-w-md px-4">
-            <MetronomeSlider
+          <div className="flex flex-col items-center gap-4 w-full max-w-md px-4 pb-4">
+            <TempoSlider
               value={tempo}
               minValue={MIN_TEMPO}
               maxValue={MAX_TEMPO}
@@ -88,6 +93,9 @@ export default function Home() {
               {tempo} BPM
             </p>
           </div>
+
+          <VolumeSlider value={volume} minValue={0} maxValue={200} setValue={setVolume} />
+          <SoundSelector value={sound} setValue={setSound} />
         </div>
       </main>
     </div>

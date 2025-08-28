@@ -10,7 +10,7 @@ type Props = {
     setValue: (v: number) => void;
 };
 
-export default function MetronomeSlider({
+export default function TempoSlider({
     value,
     minValue,
     maxValue,
