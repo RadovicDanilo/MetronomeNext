@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useMetronome from "./hooks/useMetronome";
 import TempoSlider from "@/app/components/TempoSlider";
 import BeatsSelector from "./components/BeatsSelector";
@@ -32,6 +32,18 @@ export default function Home() {
     active,
     onBeat: (beat: number) => setCurrentBeat(beat),
   });
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.code === "Space") {
+        setActive((prev) => !prev); // toggle safely
+        e.preventDefault(); // optional: prevent page scrolling
+      }
+    };
+
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, []);
 
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center max-h-fit min-h-screen p-8 pb-20 gap-16 sm:p-20 overflow-hidden">

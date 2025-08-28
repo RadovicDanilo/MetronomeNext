@@ -18,12 +18,12 @@ export default function SoundSelector({ value, setValue }: Props) {
     }, []);
 
     return (
-        <div className="relative inline-block">
+        <div className="relative inline-block my-2">
             <button
                 onClick={() => setOpen((prev) => !prev)}
-                className="px-3 py-1 bg-black text-white rounded hover:bg-gray-800"
+                className="flex flex-row px-3 py-1 bg-black text-white rounded hover:bg-gray-800"
             >
-                {value || "Select Sound"}
+                Sound type: <p className="font-bold px-2">{value || "Select Sound"}</p>
             </button>
 
             {open && (

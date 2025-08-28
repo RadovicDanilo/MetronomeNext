@@ -53,7 +53,7 @@ export default function VolumeSlider({ value, minValue, maxValue, setValue }: Pr
     };
 
     return (
-        <div className="relative flex items-center">
+        <div className="relative flex items-center my-2">
             {/* Volume icon */}
             <button
                 onClick={() => setOpen((prev) => !prev)}
@@ -65,7 +65,7 @@ export default function VolumeSlider({ value, minValue, maxValue, setValue }: Pr
             {/* Horizontal slider pop-out */}
             {open && (
                 <div
-                    className="absolute left-full ml-2 w-40 p-2 bg-black rounded shadow-lg flex items-center justify-between"
+                    className="left-full ml-2 w-40 p-2 bg-black rounded shadow-lg flex items-center justify-between"
                 >
                     {/* Track container */}
                     <div
