@@ -22,6 +22,9 @@ export default function MetronomeSlider({
     const intervalRef = useRef<number | null>(null);
     const trackRef = useRef<HTMLDivElement | null>(null);
 
+    const lastChangeRef = useRef<number>(0);
+    const THROTTLE_MS = 50;
+
     // Keyboard control
     useEffect(() => {
         const handleKey = (e: KeyboardEvent) => {
@@ -34,9 +37,19 @@ export default function MetronomeSlider({
 
     // Button hold-to-repeat
     const startCount = useCallback((fn: () => void) => {
+        const now = Date.now();
+        if (now - lastChangeRef.current < THROTTLE_MS) return;
+        lastChangeRef.current = now;
+
         fn();
         if (intervalRef.current !== null) return;
-        intervalRef.current = window.setInterval(fn, 120);
+        intervalRef.current = window.setInterval(() => {
+            const now = Date.now();
+            if (now - lastChangeRef.current >= THROTTLE_MS) {
+                fn();
+                lastChangeRef.current = now;
+            }
+        }, 20);
     }, []);
 
     const stopCount = useCallback(() => {
@@ -48,6 +61,10 @@ export default function MetronomeSlider({
 
     // Calculate value from mouse position
     const calcValueFromX = (clientX: number) => {
+        const now = Date.now();
+        if (now - lastChangeRef.current < THROTTLE_MS) return;
+        lastChangeRef.current = now;
+
         if (!trackRef.current) return;
         const rect = trackRef.current.getBoundingClientRect();
         const ratio = Math.min(Math.max((clientX - rect.left) / rect.width, 0), 1);

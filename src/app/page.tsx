@@ -3,12 +3,13 @@ import { useState } from "react";
 import useMetronome from "./hooks/useMetronome";
 import MetronomeSlider from "@/app/components/Slider";
 import BeatsSelector from "./components/BeatsSelector";
+import useLocalStorageState from "use-local-storage-state";
 
 export default function Home() {
-  const [tempo, setTempo] = useState(160);
-  const [beats, setBeats] = useState(4);
+  const [tempo, setTempo] = useLocalStorageState("tempo", { defaultValue: 160 });
+  const [beats, setBeats] = useLocalStorageState("beats", { defaultValue: 4 });
   const [currentBeat, setCurrentBeat] = useState(0);
-  const [accent, setAccent] = useState(true);
+  const [accent, setAccent] = useLocalStorageState("accent", { defaultValue: true });
   const [active, setActive] = useState(false);
 
   const MIN_TEMPO = 20;
