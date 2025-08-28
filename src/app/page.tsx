@@ -12,7 +12,7 @@ export default function Home() {
   const [beats, setBeats] = useLocalStorageState("beats", { defaultValue: 4 });
   const [accent, setAccent] = useLocalStorageState("accent", { defaultValue: true });
   const [volume, setVolume] = useLocalStorageState("volume", { defaultValue: 50 });
-  const [sound, setSound] = useLocalStorageState("sound", { defaultValue: "default" });
+  const [sound, setSound] = useLocalStorageState("sound", { defaultValue: "Ableton" });
 
   const [currentBeat, setCurrentBeat] = useState(0);
   const [active, setActive] = useState(false);
