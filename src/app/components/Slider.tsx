@@ -94,7 +94,7 @@ export default function MetronomeSlider({
                     />
                     {/* Knob */}
                     <div
-                        className="absolute top-1/2 w-3 h-3 bg-blue-600 rounded-full"
+                        className="absolute top-1/2 w-3 h-3 bg-red-400 rounded-full"
                         style={{ left: `${percent}%`, transform: "translate(-50%, -50%)" }}
                     />
                 </div>
