@@ -27,6 +27,7 @@ export default function useMetronome({
         return () => {
             metronomeRef.current?.toggle();
         };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => { metronomeRef.current?.setTempo(tempo); }, [tempo]);
