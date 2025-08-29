@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import options from "../beatsList.json";
+import options from "../soundList.json";
 
 type Props = {
     value: string;

@@ -1,5 +1,8 @@
+import SampleCache from "./SampleCache ";
+
 export default class Metronome {
     private audioContext: AudioContext;
+    private sampleCache: SampleCache;
 
     private tempo: number;
     private beatsPerMeasure: number;
@@ -26,6 +29,7 @@ export default class Metronome {
         onBeat: (beatIndex: number) => void,
     ) {
         this.audioContext = new window.AudioContext();
+        this.sampleCache = new SampleCache(this.audioContext);
         this.tempo = tempo;
         this.beatsPerMeasure = beatsPerMeasure;
         this.accentEnabled = accentEnabled;
@@ -35,17 +39,10 @@ export default class Metronome {
         this.loadSoundSet(sound);
     }
 
-    private async loadSample(url: string): Promise<AudioBuffer> {
-        const response = await fetch(url);
-        const arrayBuffer = await response.arrayBuffer();
-        return this.audioContext.decodeAudioData(arrayBuffer);
-    }
-
     async loadSoundSet(name: string) {
         const [normal, accent] = await Promise.all([
-            await this.loadSample(`/beats/${name}/A.wav`),
-            await this.loadSample(`/beats/${name}/B.wav`),
-
+            this.sampleCache.loadSample(`/beats/${name}/A.wav`),
+            this.sampleCache.loadSample(`/beats/${name}/B.wav`),
         ]);
         this.normalBuffer = normal;
         this.accentBuffer = accent;

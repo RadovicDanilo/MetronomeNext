@@ -10,8 +10,8 @@ const folders = fs
   .map((d) => d.name);
 
 fs.writeFileSync(
-  path.join(process.cwd(), "src/app/beatsList.json"),
+  path.join(process.cwd(), "src/app/soundList.json"),
   JSON.stringify(folders, null, 2)
 );
 
-console.log("Generated beatsList.json:", folders);
+console.log("Generated soundList.json:", folders);

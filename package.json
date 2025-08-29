@@ -1,15 +1,16 @@
 {
   "name": "metronome",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
     "prebuild": "npx ts-node src/app/scripts/generateBeatsList.js",
     "build": "next build --turbopack",
+    "dev": "next dev --turbopack",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
+    "idb": "^8.0.3",
     "next": "15.5.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
