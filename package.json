@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "prebuild": "npx ts-node src/app/scripts/generateBeatsList.js",
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint"

@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import options from "../beatsList.json";
 
 type Props = {
     value: string;
@@ -7,15 +8,7 @@ type Props = {
 };
 
 export default function SoundSelector({ value, setValue }: Props) {
-    const [options, setOptions] = useState<string[]>([]);
     const [open, setOpen] = useState(false);
-
-    useEffect(() => {
-        fetch("/api/beats")
-            .then((res) => res.json())
-            .then((data) => setOptions(data))
-            .catch(console.error);
-    }, []);
 
     return (
         <div className="relative inline-block my-2">
