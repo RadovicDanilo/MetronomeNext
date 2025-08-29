@@ -47,8 +47,8 @@ export default function Home() {
 
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center max-h-fit min-h-screen p-8 pb-20 gap-16 sm:p-20 overflow-hidden">
-      <main className="flex flex-col gap-10 row-start-2 items-center justify-center min-h-screen max-h-fit">
-        <div className="font-sans min-h-screen max-h-fit p-4 sm:p-8 flex flex-col items-center bg-black">
+      <main className="flex flex-col gap-10 row-start-2 items-center justify-center ">
+        <div className="font-sans min-h-fit max-h-screen p-4 sm:p-8 flex flex-col items-center bg-black">
           {/* Controls */}
           <div className="flex flex-col sm:flex-row sm:gap-8 gap-4 items-center mb-8">
             <div className="flex flex-col items-center gap-2">
