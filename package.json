@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "prebuild": "npx ts-node src/app/scripts/generateBeatsList.js",
+    "prebuild": "npx ts-node src/app/scripts/generateSoundList.js",
     "build": "next build --turbopack",
     "dev": "next dev --turbopack",
     "start": "next start",
