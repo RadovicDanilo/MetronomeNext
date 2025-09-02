@@ -84,6 +84,18 @@ export default function SoundSelector({ value, setValue }: Props) {
                                             color: 'var(--color-text)'
                                         } as React.CSSProperties
                                 }
+                                onMouseEnter={(e) => {
+                                    if (opt !== value) {
+                                        e.currentTarget.style.backgroundColor = 'var(--color-primary-hover)';
+                                        e.currentTarget.style.color = 'var(--color-primary-content)';
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (opt !== value) {
+                                        e.currentTarget.style.backgroundColor = 'var(--color-bg-light)';
+                                        e.currentTarget.style.color = 'var(--color-text)';
+                                    }
+                                }}
                             >
                                 {opt}
                             </button>

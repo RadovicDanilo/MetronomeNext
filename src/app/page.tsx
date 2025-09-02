@@ -114,13 +114,22 @@ export default function Home() {
           {Array.from({ length: beats }, (_, i) => (
             <div
               key={i}
-              className="w-6 h-6 rotate-45 mx-2 my-1 outline-2 transition-colors duration-300"
+              className="w-6 h-6 rotate-45 mx-2 my-1 transition-colors duration-300"
               style={
                 !active
-                  ? { backgroundColor: 'var(--color-neutral)' } as React.CSSProperties
+                  ? {
+                    backgroundColor: 'var(--color-neutral)',
+                    outline: '2px solid var(--color-bg-content)'
+                  } as React.CSSProperties
                   : i === currentBeat
-                    ? { backgroundColor: 'var(--color-error)' } as React.CSSProperties
-                    : { backgroundColor: 'var(--color-primary)' } as React.CSSProperties
+                    ? {
+                      backgroundColor: 'var(--color-error)',
+                      outline: '2px solid var(--color-error-hover)'
+                    } as React.CSSProperties
+                    : {
+                      backgroundColor: 'var(--color-primary)',
+                      outline: '2px solid var(--color-primary-hover)'
+                    } as React.CSSProperties
               }
             />
           ))}
