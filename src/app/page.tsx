@@ -59,7 +59,7 @@ export default function Home() {
       >
         {/* Controls */}
         <div className="flex flex-row sm:flex-row sm:gap-8 gap-4 items-center mb-8">
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center gap-3">
             <p
               className="text-sm font-medium transition-colors duration-300"
               style={{ color: 'var(--color-text)' } as React.CSSProperties}
@@ -68,7 +68,7 @@ export default function Home() {
             </p>
             <BeatsSelector beats={beats} setBeats={setBeats} />
           </div>
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center gap-3">
             <p
               className="text-sm font-medium transition-colors duration-300"
               style={{ color: 'var(--color-text)' } as React.CSSProperties}
@@ -77,7 +77,7 @@ export default function Home() {
             </p>
             <button
               onClick={() => setAccent(!accent)}
-              className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-colors outline-2`}
+              className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold outline-2 transition-all duration-300 hover:scale-105"
               style={
                 accent
                   ? {
@@ -85,10 +85,24 @@ export default function Home() {
                     color: 'var(--color-primary-content)'
                   } as React.CSSProperties
                   : {
-                    backgroundColor: 'var(--color-neutral)',
-                    color: 'var(--color-neutral-content)'
+                    backgroundColor: 'var(--color-bg-light)',
+                    color: 'var(--color-text)'
                   } as React.CSSProperties
               }
+              onMouseEnter={(e) => {
+                if (accent) {
+                  e.currentTarget.style.backgroundColor = 'var(--color-primary-hover)';
+                } else {
+                  e.currentTarget.style.backgroundColor = 'var(--color-bg-hover)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (accent) {
+                  e.currentTarget.style.backgroundColor = 'var(--color-primary)';
+                } else {
+                  e.currentTarget.style.backgroundColor = 'var(--color-bg-light)';
+                }
+              }}
             >
               {accent ? "ON" : "OFF"}
             </button>
@@ -155,15 +169,15 @@ export default function Home() {
 
       {/* Theme toggle */}
       <button
-        className="fixed w-16 h-16 top-10 left-10 rounded-full flex items-center justify-center shadow-md transition-colors duration-300"
+        className="fixed w-10 h-10 top-5 left-5 rounded-full flex items-center justify-center shadow-md transition-colors duration-300"
         style={{
           backgroundColor: 'var(--color-neutral)',
-          color: 'var(--color-neutral-content)'
+          color: 'var(--color-neutral-content)',
         } as React.CSSProperties}
         onClick={toggleTheme}
       >
-        {theme === "dark-blue" ? <FiSun size={24} /> : <FiMoon size={24} />}
+        {theme === "dark-blue" ? <FiSun size={22} /> : <FiMoon size={22} />}
       </button>
-    </main>
+    </main >
   );
 }
