@@ -25,7 +25,6 @@ export default function TempoSlider({
     const lastChangeRef = useRef<number>(0);
     const THROTTLE_MS = 50;
 
-    // Keyboard control
     useEffect(() => {
         const handleKey = (e: KeyboardEvent) => {
             if (e.key === "ArrowLeft" || e.key === "ArrowDown") lowerValue();
@@ -35,7 +34,6 @@ export default function TempoSlider({
         return () => window.removeEventListener("keydown", handleKey);
     }, [increaseValue, lowerValue]);
 
-    // Button hold-to-repeat
     const startCount = useCallback((fn: () => void) => {
         const now = Date.now();
         if (now - lastChangeRef.current < THROTTLE_MS) return;
@@ -49,7 +47,7 @@ export default function TempoSlider({
                 fn();
                 lastChangeRef.current = now;
             }
-        }, 20);
+        }, 100);
     }, []);
 
     const stopCount = useCallback(() => {
@@ -59,7 +57,6 @@ export default function TempoSlider({
         }
     }, []);
 
-    // Calculate value from mouse position
     const calcValueFromX = (clientX: number) => {
         const now = Date.now();
         if (now - lastChangeRef.current < THROTTLE_MS) return;
@@ -72,7 +69,6 @@ export default function TempoSlider({
         setValue(newValue);
     };
 
-    // Click + drag on slider track
     const handleMouseDown = (e: React.MouseEvent) => {
         calcValueFromX(e.clientX);
 
@@ -88,41 +84,65 @@ export default function TempoSlider({
 
     return (
         <div className="flex items-center gap-2 w-72 select-none">
-            {/* Decrease button */}
             <button
                 onMouseDown={() => startCount(lowerValue)}
                 onMouseUp={stopCount}
-                onMouseLeave={stopCount}
-                className="px-3 py-1 bg-black hover:bg-gray-800 rounded"
+                onMouseLeave={(e) => {
+                    stopCount();
+                    e.currentTarget.style.backgroundColor = 'var(--color-bg-light)';
+                }}
+                className="px-3 py-1 rounded transition-colors duration-300"
+                style={{
+                    backgroundColor: 'var(--color-bg-light)',
+                    color: 'var(--color-text)'
+                } as React.CSSProperties}
+                onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--color-bg-light-hover)';
+                }}
             >
                 {"<"}
             </button>
 
-            {/* Track */}
             <div className="flex-1 cursor-pointer">
                 <div
                     ref={trackRef}
                     onMouseDown={handleMouseDown}
-                    className="relative h-2.5 bg-gray-300 rounded"
+                    className="relative h-2.5 rounded transition-colors duration-300"
+                    style={{ backgroundColor: 'var(--color-neutral)' } as React.CSSProperties}
                 >
                     <div
-                        className="absolute top-0 h-2.5 bg-blue-500 rounded"
-                        style={{ width: `${percent}%` }}
+                        className="absolute top-0 h-2.5 rounded transition-colors duration-300"
+                        style={{
+                            width: `${percent}%`,
+                            backgroundColor: 'var(--color-primary)'
+                        } as React.CSSProperties}
                     />
-                    {/* Knob */}
                     <div
-                        className="absolute top-1/2 w-3 h-3 bg-red-400 rounded-full"
-                        style={{ left: `${percent}%`, transform: "translate(-50%, -50%)" }}
+                        className="absolute top-1/2 w-3 h-3 rounded-full transition-colors duration-300"
+                        style={{
+                            left: `${percent}%`,
+                            transform: "translate(-50%, -50%)",
+                            backgroundColor: 'var(--color-error)'
+                        } as React.CSSProperties}
                     />
                 </div>
             </div>
 
-            {/* Increase button */}
             <button
                 onMouseDown={() => startCount(increaseValue)}
                 onMouseUp={stopCount}
-                onMouseLeave={stopCount}
-                className="px-3 py-1 bg-black hover:bg-gray-800 rounded"
+                onMouseLeave={(e) => {
+                    stopCount();
+                    e.currentTarget.style.backgroundColor = 'var(--color-bg-light)';
+                }}
+                className="px-3 py-1 rounded transition-colors duration-300"
+                style={{
+                    backgroundColor: 'var(--color-bg-light)',
+                    color: 'var(--color-text)'
+                } as React.CSSProperties}
+                onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--color-bg-light-hover)';
+                }}
             >
                 {">"}
             </button>

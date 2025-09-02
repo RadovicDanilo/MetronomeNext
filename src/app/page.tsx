@@ -6,8 +6,11 @@ import BeatsSelector from "./components/BeatsSelector";
 import useLocalStorageState from "use-local-storage-state";
 import VolumeSlider from "./components/VolumeSlider";
 import SoundSelector from "./components/SoundSelector";
+import { FiSun, FiMoon } from "react-icons/fi";
+import { useTheme } from "./style/ThemeContext";
 
 export default function Home() {
+  const { theme, toggleTheme } = useTheme();
   const [tempo, setTempo] = useLocalStorageState("tempo", { defaultValue: 160 });
   const [beats, setBeats] = useLocalStorageState("beats", { defaultValue: 4 });
   const [accent, setAccent] = useLocalStorageState("accent", { defaultValue: true });
@@ -36,8 +39,8 @@ export default function Home() {
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.code === "Space") {
-        setActive((prev) => !prev); // toggle safely
-        e.preventDefault(); // optional: prevent page scrolling
+        setActive((prev) => !prev);
+        e.preventDefault();
       }
     };
 
@@ -46,37 +49,88 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex flex-col items-center justify-center w-full min-h-screen">
-      <div className="font-sans p-4 sm:p-8 flex flex-col items-center bg-black w-full max-w-3xl">
+    <main
+      className="flex flex-col items-center justify-center w-full min-h-screen transition-colors duration-300"
+      style={{ backgroundColor: 'var(--color-bg)' } as React.CSSProperties}
+    >
+      <div
+        className="font-sans p-4 sm:p-8 flex flex-col items-center w-full max-w-3xl transition-colors duration-300"
+        style={{ backgroundColor: 'var(--color-bg)' } as React.CSSProperties}
+      >
         {/* Controls */}
         <div className="flex flex-row sm:flex-row sm:gap-8 gap-4 items-center mb-8">
-          <div className="flex flex-col items-center gap-2">
-            <p className="text-sm font-medium text-white">Beats</p>
+          <div className="flex flex-col items-center gap-3">
+            <p
+              className="text-sm font-medium transition-colors duration-300"
+              style={{ color: 'var(--color-text)' } as React.CSSProperties}
+            >
+              Beats
+            </p>
             <BeatsSelector beats={beats} setBeats={setBeats} />
           </div>
-          <div className="flex flex-col items-center gap-2">
-            <p className="text-sm font-medium text-white">Accent</p>
+          <div className="flex flex-col items-center gap-3">
+            <p
+              className="text-sm font-medium transition-colors duration-300"
+              style={{ color: 'var(--color-text)' } as React.CSSProperties}
+            >
+              Accent
+            </p>
             <button
               onClick={() => setAccent(!accent)}
-              className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-colors outline-2
-                ${accent ? "bg-blue-500 text-white hover:bg-blue-600" : "bg-black text-white hover:bg-gray-800"}`}
+              className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold outline-2 transition-all duration-300 hover:scale-105"
+              style={
+                accent
+                  ? {
+                    backgroundColor: 'var(--color-primary)',
+                    color: 'var(--color-primary-content)'
+                  } as React.CSSProperties
+                  : {
+                    backgroundColor: 'var(--color-bg-light)',
+                    color: 'var(--color-text)'
+                  } as React.CSSProperties
+              }
+              onMouseEnter={(e) => {
+                if (accent) {
+                  e.currentTarget.style.backgroundColor = 'var(--color-primary-hover)';
+                } else {
+                  e.currentTarget.style.backgroundColor = 'var(--color-bg-hover)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (accent) {
+                  e.currentTarget.style.backgroundColor = 'var(--color-primary)';
+                } else {
+                  e.currentTarget.style.backgroundColor = 'var(--color-bg-light)';
+                }
+              }}
             >
               {accent ? "ON" : "OFF"}
             </button>
           </div>
         </div>
 
-        {/*   Beat indicators */}
+        {/* Beat indicators */}
         <div className="flex flex-wrap justify-center gap-2 mb-6 mt-2">
           {Array.from({ length: beats }, (_, i) => (
             <div
               key={i}
-              className={`w-6 h-6 rotate-45 mx-2 my-1 outline-2 ${!active
-                ? "bg-gray-400"
-                : i === currentBeat
-                  ? "bg-red-700"
-                  : "bg-blue-500"
-                }`}
+              className="w-6 h-6 rotate-45 mx-2 my-1 transition-colors duration-300"
+              style={
+                !active
+                  ? {
+                    backgroundColor: 'var(--color-neutral)',
+                    outline: '2px solid var(--color-bg-content)'
+                  } as React.CSSProperties
+                  : i === currentBeat
+                    ? {
+                      backgroundColor: 'var(--color-error)',
+                      outline: '2px solid var(--color-error-hover)'
+                    } as React.CSSProperties
+                    : {
+                      backgroundColor: 'var(--color-primary)',
+                      outline: '2px solid var(--color-primary-hover)'
+                    } as React.CSSProperties
+              }
             />
           ))}
         </div>
@@ -84,8 +138,18 @@ export default function Home() {
         {/* Start / Pause button */}
         <button
           onClick={() => setActive(!active)}
-          className={`px-6 py-2 mt-10 mb-6 rounded-full font-semibold transition-colors
-              ${active ? "bg-red-600 text-white hover:bg-red-700" : "bg-blue-500 text-white hover:bg-blue-600"}`}
+          className="px-6 py-2 mt-10 mb-6 rounded-full font-semibold transition-colors duration-300"
+          style={
+            active
+              ? {
+                backgroundColor: 'var(--color-error)',
+                color: 'var(--color-error-content)'
+              } as React.CSSProperties
+              : {
+                backgroundColor: 'var(--color-primary)',
+                color: 'var(--color-primary-content)'
+              } as React.CSSProperties
+          }
         >
           {active ? "PAUSE" : "START"}
         </button>
@@ -100,14 +164,38 @@ export default function Home() {
             increaseValue={increaseTempo}
             setValue={setTempo}
           />
-          <p className="font-bold text-3xl text-center text-white">
+          <p
+            className="font-bold text-3xl text-center transition-colors duration-300"
+            style={{ color: 'var(--color-text)' } as React.CSSProperties}
+          >
             {tempo} BPM
           </p>
         </div>
 
-        <VolumeSlider value={volume} minValue={0} maxValue={200} setValue={setVolume} />
+        <VolumeSlider value={volume} minValue={0} maxValue={150} setValue={setVolume} />
         <SoundSelector value={sound} setValue={setSound} />
       </div>
-    </main>
+
+      {/* Theme toggle */}
+      <button
+        className="fixed w-12 h-12 top-5 left-5 rounded-full flex items-center justify-center shadow-md transition-all duration-300 hover:scale-110"
+        style={{
+          backgroundColor: 'var(--color-primary)',
+          color: 'var(--color-primary-content)',
+          boxShadow: '0 4px 12px var(--color-primary-hover)'
+        } as React.CSSProperties}
+        onClick={toggleTheme}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = 'var(--color-primary-hover)';
+          e.currentTarget.style.boxShadow = '0 6px 16px var(--color-primary)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = 'var(--color-primary)';
+          e.currentTarget.style.boxShadow = '0 4px 12px var(--color-primary-hover)';
+        }}
+      >
+        {theme === "dark-blue" ? <FiSun size={24} /> : <FiMoon size={24} />}
+      </button>
+    </main >
   );
 }
