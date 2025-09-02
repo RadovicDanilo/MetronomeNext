@@ -47,7 +47,7 @@ export default function TempoSlider({
                 fn();
                 lastChangeRef.current = now;
             }
-        }, 20);
+        }, 100);
     }, []);
 
     const stopCount = useCallback(() => {
@@ -87,12 +87,18 @@ export default function TempoSlider({
             <button
                 onMouseDown={() => startCount(lowerValue)}
                 onMouseUp={stopCount}
-                onMouseLeave={stopCount}
+                onMouseLeave={(e) => {
+                    stopCount();
+                    e.currentTarget.style.backgroundColor = 'var(--color-bg-light)';
+                }}
                 className="px-3 py-1 rounded transition-colors duration-300"
                 style={{
                     backgroundColor: 'var(--color-bg-light)',
                     color: 'var(--color-text)'
                 } as React.CSSProperties}
+                onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--color-bg-light-hover)';
+                }}
             >
                 {"<"}
             </button>
@@ -125,12 +131,18 @@ export default function TempoSlider({
             <button
                 onMouseDown={() => startCount(increaseValue)}
                 onMouseUp={stopCount}
-                onMouseLeave={stopCount}
+                onMouseLeave={(e) => {
+                    stopCount();
+                    e.currentTarget.style.backgroundColor = 'var(--color-bg-light)';
+                }}
                 className="px-3 py-1 rounded transition-colors duration-300"
                 style={{
                     backgroundColor: 'var(--color-bg-light)',
                     color: 'var(--color-text)'
                 } as React.CSSProperties}
+                onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--color-bg-light-hover)';
+                }}
             >
                 {">"}
             </button>

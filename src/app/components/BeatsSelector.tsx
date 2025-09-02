@@ -39,62 +39,60 @@ export default function BeatsSelector({
                     color: 'var(--color-text)'
                 }}
                 onMouseEnter={(e: React.MouseEvent<HTMLButtonElement>) => {
-                    e.currentTarget.style.backgroundColor = 'var(--color-bg-hover)';
+                    e.currentTarget.style.backgroundColor = 'var(--color-bg-light-hover)';
                 }}
                 onMouseLeave={(e: React.MouseEvent<HTMLButtonElement>) => {
                     e.currentTarget.style.backgroundColor = 'var(--color-bg-light)';
                 }}
             >
-            {beats}
-        </button>
+                {beats}
+            </button>
 
-            {
-        open && (
-            <div
-                className="absolute mt-2 left-1/2 -translate-x-1/2 flex flex-wrap justify-center gap-1 rounded shadow-lg px-2 py-1 z-10 max-w-[90vw] transition-colors duration-300"
-                style={{
-                    backgroundColor: 'var(--color-bg-light)',
-                    border: '1px solid var(--color-neutral)'
-                } as React.CSSProperties}
-            >
-                {Array.from({ length: 16 }, (_, i) => i + 1).map((num) => (
-                    <button
-                        key={num}
-                        onClick={() => {
-                            setBeats(num);
-                            setOpen(false);
-                        }}
-                        className="w-8 h-8 flex items-center justify-center rounded text-sm font-medium transition-all duration-300 hover:scale-110"
-                        style={
-                            num === beats
-                                ? {
-                                    backgroundColor: 'var(--color-primary)',
-                                    color: 'var(--color-primary-content)'
-                                } as React.CSSProperties
-                                : {
-                                    backgroundColor: 'var(--color-bg-light)',
-                                    color: 'var(--color-text)'
-                                } as React.CSSProperties
-                        }
-                        onMouseEnter={(e) => {
-                            if (num !== beats) {
-                                e.currentTarget.style.backgroundColor = 'var(--color-primary-hover)';
-                                e.currentTarget.style.color = 'var(--color-primary-content)';
+            {open && (
+                <div
+                    className="absolute mt-2 left-1/2 -translate-x-1/2 w-max flex flex-wrap max-w-[90vw] justify-center items-center gap-2 rounded-full shadow-lg px-4 py-3 z-10 transition-colors duration-300"
+                    style={{
+                        backgroundColor: 'var(--color-bg-light)',
+                        border: '1px solid var(--color-neutral)'
+                    } as React.CSSProperties}
+                >
+                    {Array.from({ length: 16 }, (_, i) => i + 1).map((num) => (
+                        <button
+                            key={num}
+                            onClick={() => {
+                                setBeats(num);
+                                setOpen(false);
+                            }}
+                            className="w-8 h-8 flex items-center justify-center rounded-full text-sm font-medium transition-all duration-300 hover:scale-110"
+                            style={
+                                num === beats
+                                    ? {
+                                        backgroundColor: 'var(--color-primary)',
+                                        color: 'var(--color-primary-content)'
+                                    } as React.CSSProperties
+                                    : {
+                                        backgroundColor: 'var(--color-bg-lighter)',
+                                        color: 'var(--color-text)'
+                                    } as React.CSSProperties
                             }
-                        }}
-                        onMouseLeave={(e) => {
-                            if (num !== beats) {
-                                e.currentTarget.style.backgroundColor = 'var(--color-bg-light)';
-                                e.currentTarget.style.color = 'var(--color-text)';
-                            }
-                        }}
-                    >
-                        {num}
-                    </button>
-                ))}
-            </div>
-        )
-    }
-        </div >
+                            onMouseEnter={(e) => {
+                                if (num !== beats) {
+                                    e.currentTarget.style.backgroundColor = 'var(--color-primary-hover)';
+                                    e.currentTarget.style.color = 'var(--color-primary-content)';
+                                }
+                            }}
+                            onMouseLeave={(e) => {
+                                if (num !== beats) {
+                                    e.currentTarget.style.backgroundColor = 'var(--color-bg-lighter)';
+                                    e.currentTarget.style.color = 'var(--color-text)';
+                                }
+                            }}
+                        >
+                            {num}
+                        </button>
+                    ))}
+                </div>
+            )}
+        </div>
     );
 }

@@ -68,6 +68,12 @@ export default function VolumeSlider({ value, minValue, maxValue, setValue }: Pr
                     backgroundColor: 'var(--color-bg-light)',
                     color: 'var(--color-text)'
                 } as React.CSSProperties}
+                onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--color-bg-light-hover)';
+                }}
+                onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--color-bg-light)';
+                }}
             >
                 <FiVolume2 size={20} />
             </button>

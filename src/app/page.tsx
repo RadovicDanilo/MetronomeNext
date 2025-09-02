@@ -178,14 +178,23 @@ export default function Home() {
 
       {/* Theme toggle */}
       <button
-        className="fixed w-10 h-10 top-5 left-5 rounded-full flex items-center justify-center shadow-md transition-colors duration-300"
+        className="fixed w-12 h-12 top-5 left-5 rounded-full flex items-center justify-center shadow-md transition-all duration-300 hover:scale-110"
         style={{
-          backgroundColor: 'var(--color-neutral)',
-          color: 'var(--color-neutral-content)',
+          backgroundColor: 'var(--color-primary)',
+          color: 'var(--color-primary-content)',
+          boxShadow: '0 4px 12px var(--color-primary-hover)'
         } as React.CSSProperties}
         onClick={toggleTheme}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = 'var(--color-primary-hover)';
+          e.currentTarget.style.boxShadow = '0 6px 16px var(--color-primary)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = 'var(--color-primary)';
+          e.currentTarget.style.boxShadow = '0 4px 12px var(--color-primary-hover)';
+        }}
       >
-        {theme === "dark-blue" ? <FiSun size={22} /> : <FiMoon size={22} />}
+        {theme === "dark-blue" ? <FiSun size={24} /> : <FiMoon size={24} />}
       </button>
     </main >
   );
