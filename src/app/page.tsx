@@ -124,11 +124,11 @@ export default function Home() {
                   : i === currentBeat
                     ? {
                       backgroundColor: 'var(--color-error)',
-                      outline: '2px solid var(--color-error-hover)'
+                      outline: '2px solid var(--color-bg-content)'
                     } as React.CSSProperties
                     : {
                       backgroundColor: 'var(--color-primary)',
-                      outline: '2px solid var(--color-primary-hover)'
+                      outline: '2px solid var(--color-bg-content)'
                     } as React.CSSProperties
               }
             />
@@ -166,7 +166,7 @@ export default function Home() {
           />
           <p
             className="font-bold text-3xl text-center transition-colors duration-300"
-            style={{ color: 'var(--color-text)' } as React.CSSProperties}
+            style={{ color: 'var(--color-text)',  } as React.CSSProperties}
           >
             {tempo} BPM
           </p>
@@ -194,7 +194,7 @@ export default function Home() {
           e.currentTarget.style.boxShadow = '0 4px 12px var(--color-primary-hover)';
         }}
       >
-        {theme === "dark-blue" ? <FiSun size={24} /> : <FiMoon size={24} />}
+        {theme === "dark" ? <FiSun size={24} /> : <FiMoon size={24} />}
       </button>
     </main >
   );

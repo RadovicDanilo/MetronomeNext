@@ -94,7 +94,8 @@ export default function TempoSlider({
                 className="px-3 py-1 rounded transition-colors duration-300"
                 style={{
                     backgroundColor: 'var(--color-bg-light)',
-                    color: 'var(--color-text)'
+                    color: 'var(--color-text)',
+                    outline: "1px solid var(--color-bg-content)"
                 } as React.CSSProperties}
                 onMouseEnter={(e) => {
                     e.currentTarget.style.backgroundColor = 'var(--color-bg-light-hover)';
@@ -138,7 +139,8 @@ export default function TempoSlider({
                 className="px-3 py-1 rounded transition-colors duration-300"
                 style={{
                     backgroundColor: 'var(--color-bg-light)',
-                    color: 'var(--color-text)'
+                    color: 'var(--color-text)',
+                    outline: "1px solid var(--color-bg-content)"
                 } as React.CSSProperties}
                 onMouseEnter={(e) => {
                     e.currentTarget.style.backgroundColor = 'var(--color-bg-light-hover)';

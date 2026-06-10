@@ -1,7 +1,7 @@
 'use client';
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
-type Theme = 'light-blue' | 'dark-blue';
+type Theme = 'light' | 'dark';
 
 interface ThemeContextType {
   theme: Theme;
@@ -18,11 +18,11 @@ export default function ThemeProvider({ children }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('theme') as Theme | null;
-      if (saved === 'light-blue' || saved === 'dark-blue') return saved;
+      if (saved === 'light' || saved === 'dark') return saved;
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      return prefersDark ? 'dark-blue' : 'light-blue';
+      return prefersDark ? 'dark' : 'light';
     }
-    return 'light-blue';
+    return 'light';
   });
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function ThemeProvider({ children }: ThemeProviderProps) {
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(prev => (prev === 'light-blue' ? 'dark-blue' : 'light-blue'));
+    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
   };
 
   return (

@@ -1,4 +1,4 @@
-import SampleCache from "./SampleCache ";
+import SampleCache from "./SampleCache";
 
 export default class Metronome {
     private audioContext: AudioContext;
