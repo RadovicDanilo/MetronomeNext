@@ -1,9 +1,6 @@
 [
-  "Ableton",
-  "Click 01",
-  "Click 02",
-  "Click 03",
   "Cubase",
+  "Ableton",
   "FL Studio",
   "Logic",
   "Marimba",
@@ -11,5 +8,8 @@
   "MPC",
   "Pro Tools",
   "Reason",
-  "Sonar"
+  "Sonar",
+  "Click 01",
+  "Click 02",
+  "Click 03"
 ]
